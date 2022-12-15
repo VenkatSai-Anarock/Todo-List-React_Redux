@@ -1,23 +1,17 @@
-import logo from './logo.svg';
-import './App.css';
-
+import { createStore } from "redux";
+import AddTodo from "./components/add_todo";
+import Footer from "./components/footer";
+import VisibleTodoList from "./components/visible_todo_list";
+import "./App.css";
+import { useParams } from "react-router-dom";
 function App() {
+  const { filter } = useParams();
+  console.log(filter);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <AddTodo />
+        <VisibleTodoList filter={filter||'all'} />
+      <Footer />
     </div>
   );
 }
