@@ -6,7 +6,6 @@ import "./App.css";
 import { useParams } from "react-router-dom";
 function App() {
   const { filter } = useParams();
-  
   return (
     <div className="app">
       <AddTodo />

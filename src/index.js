@@ -6,9 +6,11 @@ import { Provider } from 'react-redux';
 import configureStore from './configureStore';
 import { Routes, Route, Navigate } from "react-router-dom";
 import { BrowserRouter } from "react-router-dom";
+import { fetchTodos } from "./api";
+import { useEffect } from "react";
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const store = configureStore();
-
+console.log(fetchTodos('all').then(res=>console.log(res)))
 root.render(
   <React.StrictMode>
     <Provider store={store}>
