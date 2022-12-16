@@ -21,7 +21,7 @@ import { addTodo } from "../actions";
             onChange = {(e)=>setTodoText(e.target.value)}
             />
             <button type="submit">
-                Add Todo
+                Add Todo 
             </button>
         </form>
     )
