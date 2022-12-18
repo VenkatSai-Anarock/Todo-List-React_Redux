@@ -6,31 +6,29 @@ import { getVisibleTodos } from "../reducers";
 import { fetchTodos } from "../api";
 
 class VisibleTodoList extends React.Component {
-  componentDidMount() {
-    this.fetchData();
-  }
-  componentDidUpdate(prevProps) {
-    if (this.props.filter !== prevProps.filter) {
+   componentDidMount() {
       this.fetchData();
-    }
-  }
-  fetchData = () => {
-    const { filter, receiveTodos } = this.props;
+   }
+   componentDidUpdate(prevProps) {
+      if (this.props.filter !== prevProps.filter) {
+         this.fetchData();
+      }
+   }
+   fetchData = () => {
+      const { filter, receiveTodos } = this.props;
 
-    fetchTodos(this.props.filter).then((todos) =>
-      this.props.receiveTodos(filter, todos)
-    );
-  };
-  render() {
-    const { toggleTodo, ...rest } = this.props;
-    return <TodoList {...rest} onTodoClick={toggleTodo} />;
-  }
+      fetchTodos(this.props.filter).then((todos) => this.props.receiveTodos(filter, todos));
+   };
+   render() {
+      const { toggleTodo, ...rest } = this.props;
+      return <TodoList {...rest} onTodoClick={toggleTodo} />;
+   }
 }
 const mapStateToProps = (state, ownProps) => {
-  return {
-    filter: ownProps.filter,
-    todos: getVisibleTodos(state, ownProps.filter),
-  };
+   return {
+      filter: ownProps.filter,
+      todos: getVisibleTodos(state, ownProps.filter),
+   };
 };
 
 VisibleTodoList = connect(mapStateToProps, actions)(VisibleTodoList);

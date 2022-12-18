@@ -4,7 +4,7 @@ import { createLogger } from "redux-logger";
 import { loadState, saveState } from "./loadState";
 import todoApp from "./reducers";
 import { throttle } from "lodash";
-
+import { composeWithDevTools } from "redux-devtools-extension";
 const addPromisesSupportToDispatch = (store) => (next) => (action) => {
       if (typeof action.then === "function") {
         return action.then(next);
@@ -26,7 +26,7 @@ const wrapDispatchWithMiddles = (store, middlewares) => {
 const configureStore = () => {
   const middlewares = [promise];
   middlewares.push(createLogger());
-  const store = createStore(todoApp,applyMiddleware(...middlewares));
+  const store = createStore(todoApp,composeWithDevTools());
   return store;
 };
 export default configureStore;
