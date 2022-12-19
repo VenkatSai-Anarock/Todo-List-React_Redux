@@ -14,5 +14,6 @@ const VisibleTodoList = connect(
     mapStateToProps,
     {onTodoClick: toggleTodo}
 )(TodoList);
-  
+
+
 export default VisibleTodoList;
