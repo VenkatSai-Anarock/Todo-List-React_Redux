@@ -1,25 +1,23 @@
 import { v4 } from "node-uuid";
 
+// This is a fake in-memory implementation of something
+// that would be implemented by calling a REST server.
+
 const fakeDatabase = {
    todos: [
       {
          id: v4(),
-         text: "Hello",
+         text: "hey",
          completed: true,
       },
       {
          id: v4(),
-         text: "Hello2",
-         completed: false,
-      },
-      {
-         id: v4(),
-         text: "Hello3",
+         text: "ho",
          completed: true,
       },
       {
          id: v4(),
-         text: "Hello4",
+         text: "let’s go",
          completed: false,
       },
    ],
@@ -37,6 +35,6 @@ export const fetchTodos = (filter) =>
          case "completed":
             return fakeDatabase.todos.filter((t) => t.completed);
          default:
-            throw new Error(`Unknown Filter:  ${filter}`);
+            throw new Error(`Unknown filter: ${filter}`);
       }
    });

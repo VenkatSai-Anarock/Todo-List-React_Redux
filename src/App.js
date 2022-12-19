@@ -10,6 +10,7 @@ function App() {
   const { filter } = useParams();
   return (
     <div className="app">
+      
       <AddTodo />
         <VisibleTodoList filter={filter||'all'} />
       <Footer />

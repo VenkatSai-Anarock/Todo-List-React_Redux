@@ -1,32 +1,32 @@
-import { createStore,applyMiddleware } from "redux";
-import promise from "redux-promise";
-import { createLogger } from "redux-logger";
-import { loadState, saveState } from "./loadState";
+import { createStore } from "redux";
 import todoApp from "./reducers";
-import { throttle } from "lodash";
-import { composeWithDevTools } from "redux-devtools-extension";
-const addPromisesSupportToDispatch = (store) => (next) => (action) => {
-      if (typeof action.then === "function") {
-        return action.then(next);
-      }
-      return next(action);
+
+const logger = (store) => (next) => (action) => {
+   console.group(action.type);
+   console.log("%c prev state", "color: gray", store.getState());
+   console.log("%c action", "color: blue", action);
+   const returnValue = next(action);
+   console.log("%c next state", "color: green", store.getState());
+   console.groupEnd(action.type);
+   return returnValue;
 };
-const addLoggingtoDispatch = (store) =>  (next) => (action) => {
-      console.group(action.type);
-      console.log("%c prev state", "color  :gray", store.getState());
-      console.log("%c action", "color: blue", action);
-      const returnValue = next(action);
-      console.log("%c next state", "color: green", store.getState());
-      console.groupEnd(action.type);
-      return returnValue;
+
+const promise = (store) => (next) => (action) => {
+   if (typeof action.then === "function") {
+      return action.then(next);
+   }
+   return next(action);
 };
-const wrapDispatchWithMiddles = (store, middlewares) => {
-  middlewares.forEach((middleware) => (store.dispatch = middleware(store)(store.dispatch)));
+
+const wrapDispatchWithMiddleWares = (store, middleWares) => {
+   middleWares.slice().reverse().forEach((middleWare) => (store.dispatch = middleWare(store)(store.dispatch)));
 };
 const configureStore = () => {
-  const middlewares = [promise];
-  middlewares.push(createLogger());
-  const store = createStore(todoApp,composeWithDevTools());
-  return store;
+   const store = createStore(todoApp);
+   const middleWares = [promise];
+   middleWares.push(logger);
+   wrapDispatchWithMiddleWares(store, middleWares);
+   return store;
 };
+
 export default configureStore;

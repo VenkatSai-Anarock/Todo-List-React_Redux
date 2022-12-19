@@ -1,4 +1,4 @@
-export const todo = (state,action) =>{
+ const todo = (state,action) =>{
     switch(action.type){
         case 'ADD_TODO':
             return {
@@ -20,3 +20,5 @@ export const todo = (state,action) =>{
             return state;
     }
 }
+
+export default todo
