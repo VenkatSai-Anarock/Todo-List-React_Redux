@@ -1,31 +1,37 @@
-import { createStore } from "redux";
+import { applyMiddleware, createStore } from "redux";
 import todoApp from "./reducers";
+// import promise from 'redux-promise';
+import thunk from 'redux-thunk';
+import {createLogger} from 'redux-logger'
+// const logger = (store) => (next) => (action) => {
+//    console.group(action.type);
+//    console.log("%c prev state", "color: gray", store.getState());
+//    console.log("%c action", "color: blue", action);
+//    const returnValue = next(action);
+//    console.log("%c next state", "color: green", store.getState());
+//    console.groupEnd(action.type);
+//    return returnValue;
+// };
 
-const logger = (store) => (next) => (action) => {
-   console.group(action.type);
-   console.log("%c prev state", "color: gray", store.getState());
-   console.log("%c action", "color: blue", action);
-   const returnValue = next(action);
-   console.log("%c next state", "color: green", store.getState());
-   console.groupEnd(action.type);
-   return returnValue;
-};
+// const promise = (store) => (next) => (action) => {
+//    if (typeof action.then === "function") {
+//       return action.then(next);
+//    }
+//    return next(action);
+// };
 
-const promise = (store) => (next) => (action) => {
-   if (typeof action.then === "function") {
-      return action.then(next);
-   }
-   return next(action);
-};
+// const wrapDispatchWithMiddleWares = (store, middleWares) => {
+//    middleWares.slice().reverse().forEach((middleWare) => (store.dispatch = middleWare(store)(store.dispatch)));
+// };
 
-const wrapDispatchWithMiddleWares = (store, middleWares) => {
-   middleWares.slice().reverse().forEach((middleWare) => (store.dispatch = middleWare(store)(store.dispatch)));
-};
+// const thunkMiddleWare = (store) => (next) => (action) => 
+// typeof action === 'function' ? action(store.dispatch,store.getState):(next(action));
+
+
 const configureStore = () => {
-   const store = createStore(todoApp);
-   const middleWares = [promise];
-   middleWares.push(logger);
-   wrapDispatchWithMiddleWares(store, middleWares);
+   const middleWares = [thunk];
+   middleWares.push(createLogger());
+   const store = createStore(todoApp,applyMiddleware(...middleWares))
    return store;
 };
 
